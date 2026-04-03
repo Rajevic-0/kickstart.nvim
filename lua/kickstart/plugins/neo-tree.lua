@@ -18,6 +18,22 @@ return {
   ---@module 'neo-tree'
   ---@type neotree.Config
   opts = {
+    default_component_configs = {
+      icon = {
+        provider = function(icon, node)
+          local mini_icons = require("mini.icons")
+
+          if node.type == "directory" then
+            icon.text = node:is_expanded() and "" or ""
+            icon.highlight = "Directory"
+          else
+            local glyph, hl = mini_icons.get("file", node.name)
+            icon.text = glyph or icon.text
+            icon.highlight = hl or icon.highlight
+          end
+        end,
+      }
+    },
     filesystem = {
       window = {
         mappings = {
